@@ -57,13 +57,18 @@ export function LockScreen() {
       }}
       {...bind()}
     >
-      {/* Clock and Date */}
-      <div className="flex-1 flex flex-col items-center pt-32">
+      {/* Clock and Date - positioned below Dynamic Island */}
+      <div
+        className="flex flex-col items-center"
+        style={{
+          paddingTop: DEVICE.dynamicIsland.topOffset + DEVICE.dynamicIsland.height + 24
+        }}
+      >
         <LockClock />
       </div>
 
-      {/* Notifications */}
-      <div className="flex-1 px-4 py-4 overflow-hidden">
+      {/* Notifications - takes remaining space */}
+      <div className="flex-1 px-4 py-6 overflow-hidden">
         <LockNotifications />
       </div>
 

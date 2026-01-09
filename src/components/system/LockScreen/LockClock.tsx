@@ -20,13 +20,13 @@ export function LockClock() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {/* Time */}
-      <div className="text-[82px] font-light tracking-tight leading-none">
+      {/* Time - smaller font size to fit properly */}
+      <div className="text-[64px] font-light tracking-tight leading-none">
         {format(time, 'h:mm')}
       </div>
 
       {/* Date */}
-      <div className="text-[20px] font-normal mt-1 opacity-90">
+      <div className="text-[17px] font-normal mt-2 opacity-90">
         {format(time, 'EEEE, MMMM d')}
       </div>
     </motion.div>

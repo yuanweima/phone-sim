@@ -13,6 +13,7 @@ import { NotificationCenter } from '../system/NotificationCenter/NotificationCen
 import { AppSwitcher } from '../system/AppSwitcher/AppSwitcher'
 import { AppContainer } from '@/apps/AppContainer'
 import { appRegistry } from '@/apps/registry'
+import { TopEdgeGestures } from '../system/TopEdgeGestures'
 
 export function Screen() {
   const registerApp = usePhoneStore((state) => state.registerApp)
@@ -67,6 +68,9 @@ export function Screen() {
       <div className="relative w-full h-full">
         {/* Status Bar - always on top */}
         <StatusBar />
+
+        {/* Top edge gesture detection - for control center / notification center */}
+        {!isLocked && <TopEdgeGestures />}
 
         {/* Lock Screen */}
         <AnimatePresence mode="wait">

@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useDrag } from '@use-gesture/react'
 import { usePhoneStore } from '@/store'
-import { formatDistanceToNow } from 'date-fns'
+import { format, formatDistanceToNow } from 'date-fns'
 import { X, Bell } from 'lucide-react'
 import { iosSpring } from '@/constants/animations'
+import { DEVICE } from '@/constants/device'
 
 export function NotificationCenter() {
   const {
@@ -11,70 +13,106 @@ export function NotificationCenter() {
     notifications,
     removeNotification,
     clearAll,
+    settings,
   } = usePhoneStore()
 
-  // Swipe down to close
+  const [time, setTime] = useState(new Date())
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(new Date())
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Swipe up to close (like dismissing lock screen)
   const bind = useDrag(
     ({ movement: [, my], velocity: [, vy], last, direction: [, dy] }) => {
-      if (last && (my > 100 || vy > 0.5) && dy > 0) {
+      if (last && (my < -100 || vy < -0.5) && dy < 0) {
         closeNotificationCenter()
       }
     },
     { axis: 'y' }
   )
 
-  // Group notifications by app
-  const groupedNotifications = notifications.reduce((acc, notif) => {
-    if (!acc[notif.appId]) {
-      acc[notif.appId] = []
-    }
-    acc[notif.appId].push(notif)
-    return acc
-  }, {} as Record<string, typeof notifications>)
-
   return (
     <motion.div
-      className="absolute inset-0 bg-black/60 backdrop-blur-xl flex flex-col pt-16"
+      className="absolute inset-0 flex flex-col"
+      style={{
+        background: settings.lockScreenWallpaper,
+      }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       onClick={closeNotificationCenter}
       {...bind()}
     >
-      {/* Header */}
-      <div className="px-4 pb-4 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
-        <h2 className="text-white text-xl font-bold">Notifications</h2>
-        {notifications.length > 0 && (
-          <motion.button
-            className="text-white/70 text-sm"
-            whileTap={{ scale: 0.95 }}
-            onClick={clearAll}
-          >
-            Clear All
-          </motion.button>
-        )}
-      </div>
+      {/* Blur overlay */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-xl" />
 
-      {/* Notifications list */}
-      <div className="flex-1 overflow-y-auto px-4 pb-8 ios-scroll" onClick={(e) => e.stopPropagation()}>
-        {notifications.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-64 text-white/50">
-            <Bell size={48} className="mb-4 opacity-50" />
-            <p>No notifications</p>
+      {/* Content */}
+      <div className="relative flex flex-col h-full">
+        {/* Time and Date - similar to lock screen */}
+        <div
+          className="flex flex-col items-center text-white"
+          style={{
+            paddingTop: DEVICE.dynamicIsland.topOffset + DEVICE.dynamicIsland.height + 24
+          }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="text-[64px] font-light tracking-tight leading-none">
+            {format(time, 'h:mm')}
           </div>
-        ) : (
-          <div className="space-y-3">
-            <AnimatePresence mode="popLayout">
-              {notifications.map((notification) => (
-                <NotificationCard
-                  key={notification.id}
-                  notification={notification}
-                  onDismiss={() => removeNotification(notification.id)}
-                />
-              ))}
-            </AnimatePresence>
+          <div className="text-[17px] font-normal mt-2 opacity-90">
+            {format(time, 'EEEE, MMMM d')}
           </div>
-        )}
+        </div>
+
+        {/* Notifications header */}
+        <div className="px-4 pt-6 pb-2 flex items-center justify-between" onClick={(e) => e.stopPropagation()}>
+          <h2 className="text-white/70 text-sm font-semibold uppercase tracking-wide">Notifications</h2>
+          {notifications.length > 0 && (
+            <motion.button
+              className="text-white/70 text-sm"
+              whileTap={{ scale: 0.95 }}
+              onClick={clearAll}
+            >
+              Clear All
+            </motion.button>
+          )}
+        </div>
+
+        {/* Notifications list */}
+        <div className="flex-1 overflow-y-auto px-4 pb-8 ios-scroll" onClick={(e) => e.stopPropagation()}>
+          {notifications.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-40 text-white/50">
+              <Bell size={36} className="mb-3 opacity-50" />
+              <p className="text-sm">No notifications</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              <AnimatePresence mode="popLayout">
+                {notifications.map((notification) => (
+                  <NotificationCard
+                    key={notification.id}
+                    notification={notification}
+                    onDismiss={() => removeNotification(notification.id)}
+                  />
+                ))}
+              </AnimatePresence>
+            </div>
+          )}
+        </div>
+
+        {/* Swipe up indicator */}
+        <div className="pb-8 flex flex-col items-center">
+          <motion.div
+            className="w-10 h-1 bg-white/50 rounded-full mb-2"
+            animate={{ y: [0, -5, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          />
+          <span className="text-white/70 text-sm">Swipe up to close</span>
+        </div>
       </div>
     </motion.div>
   )
