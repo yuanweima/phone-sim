@@ -30,7 +30,7 @@ export const createDynamicIslandSlice = (set: SetState): DynamicIslandSlice => (
 
   setDynamicIslandContent: (content) => set({ dynamicIslandContent: content }),
 
-  showMusicPlayer: (title, artist) =>
+  showMusicPlayer: (_title, _artist) =>
     set({
       dynamicIslandContent: {
         id: `music-${Date.now()}`,
@@ -40,7 +40,7 @@ export const createDynamicIslandSlice = (set: SetState): DynamicIslandSlice => (
       isDynamicIslandExpanded: false,
     }),
 
-  showTimer: (timeLeft) =>
+  showTimer: (_timeLeft) =>
     set({
       dynamicIslandContent: {
         id: `timer-${Date.now()}`,
@@ -50,7 +50,7 @@ export const createDynamicIslandSlice = (set: SetState): DynamicIslandSlice => (
       isDynamicIslandExpanded: false,
     }),
 
-  showCall: (callerName) =>
+  showCall: (_callerName) =>
     set({
       dynamicIslandContent: {
         id: `call-${Date.now()}`,

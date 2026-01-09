@@ -33,15 +33,15 @@ export const usePhoneStore = create<PhoneStore>()(
   devtools(
     subscribeWithSelector(
       persist(
-        (...args) => ({
-          ...createPhoneSlice(...args),
-          ...createAppsSlice(...args),
-          ...createHomeSlice(...args),
-          ...createSettingsSlice(...args),
-          ...createControlCenterSlice(...args),
-          ...createNotificationSlice(...args),
-          ...createAppSwitcherSlice(...args),
-          ...createDynamicIslandSlice(...args),
+        (set, get) => ({
+          ...createPhoneSlice(set),
+          ...createAppsSlice(set, get),
+          ...createHomeSlice(set, get),
+          ...createSettingsSlice(set),
+          ...createControlCenterSlice(set),
+          ...createNotificationSlice(set),
+          ...createAppSwitcherSlice(set),
+          ...createDynamicIslandSlice(set),
         }),
         {
           name: 'phone-simulator-storage',

@@ -82,7 +82,7 @@ export const createHomeSlice = (set: SetState, get: GetState): HomeSlice => ({
     set((state) => {
       const newPages = state.homePages.map((page, pageIndex) => {
         // Remove app from current location
-        const filteredApps = page.apps.filter((app) => {
+        const filteredApps = page.apps.filter((app: string | FolderDefinition) => {
           if (typeof app === 'string') return app !== appId
           return true
         })
@@ -108,7 +108,7 @@ export const createHomeSlice = (set: SetState, get: GetState): HomeSlice => ({
       // Remove from pages
       const newPages = state.homePages.map((page) => ({
         ...page,
-        apps: page.apps.filter((app) => {
+        apps: page.apps.filter((app: string | FolderDefinition) => {
           if (typeof app === 'string') return app !== appId
           return true
         }),
@@ -139,7 +139,7 @@ export const createHomeSlice = (set: SetState, get: GetState): HomeSlice => ({
           // Remove apps from other pages
           return {
             ...page,
-            apps: page.apps.filter((app) => {
+            apps: page.apps.filter((app: string | FolderDefinition) => {
               if (typeof app === 'string') return !appIds.includes(app)
               return true
             }),
@@ -147,7 +147,7 @@ export const createHomeSlice = (set: SetState, get: GetState): HomeSlice => ({
         }
 
         // Create folder in target page
-        const filteredApps = page.apps.filter((app) => {
+        const filteredApps = page.apps.filter((app: string | FolderDefinition) => {
           if (typeof app === 'string') return !appIds.includes(app)
           return true
         })
@@ -163,7 +163,7 @@ export const createHomeSlice = (set: SetState, get: GetState): HomeSlice => ({
     set((state) => ({
       homePages: state.homePages.map((page) => ({
         ...page,
-        apps: page.apps.map((app) => {
+        apps: page.apps.map((app: string | FolderDefinition) => {
           if (typeof app !== 'string' && app.id === folderId) {
             return { ...app, name }
           }
@@ -176,9 +176,9 @@ export const createHomeSlice = (set: SetState, get: GetState): HomeSlice => ({
     set((state) => ({
       homePages: state.homePages.map((page) => ({
         ...page,
-        apps: page.apps.map((app) => {
+        apps: page.apps.map((app: string | FolderDefinition) => {
           if (typeof app !== 'string' && app.id === folderId) {
-            return { ...app, apps: app.apps.filter((id) => id !== appId) }
+            return { ...app, apps: app.apps.filter((id: string) => id !== appId) }
           }
           return app
         }),

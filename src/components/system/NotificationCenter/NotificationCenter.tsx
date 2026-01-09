@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue } from 'framer-motion'
 import { useDrag } from '@use-gesture/react'
 import { usePhoneStore } from '@/store'
 import { format, formatDistanceToNow } from 'date-fns'
@@ -131,7 +131,7 @@ interface NotificationCardProps {
 }
 
 function NotificationCard({ notification, onDismiss }: NotificationCardProps) {
-  const x = motion.useMotionValue(0)
+  const x = useMotionValue(0)
 
   const bind = useDrag(
     ({ movement: [mx], velocity: [vx], last, direction: [dx] }) => {
