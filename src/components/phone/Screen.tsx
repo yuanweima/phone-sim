@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { usePhoneStore } from '@/store'
 import { DEVICE } from '@/constants/device'
 import { iosSpring } from '@/constants/animations'
-import { DynamicIsland } from './DynamicIsland'
+import { PunchHoleCamera } from './PunchHoleCamera'
 import { HomeIndicator } from './HomeIndicator'
 import { StatusBar } from '../system/StatusBar/StatusBar'
 import { LockScreen } from '../system/LockScreen/LockScreen'
@@ -61,8 +61,8 @@ export function Screen() {
         style={{ opacity: 1 - brightness / 100 }}
       />
 
-      {/* Dynamic Island */}
-      <DynamicIsland />
+      {/* Punch-hole Camera */}
+      <PunchHoleCamera />
 
       {/* Main content layers */}
       <div className="relative w-full h-full">

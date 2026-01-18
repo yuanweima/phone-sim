@@ -14,6 +14,7 @@ export function TopEdgeGestures() {
     isLocked
   } = usePhoneStore()
 
+  const gestureRef = useRef<HTMLDivElement>(null)
   const startXRef = useRef(0)
   const y = useMotionValue(0)
 
@@ -26,8 +27,13 @@ export function TopEdgeGestures() {
       if (isControlCenterOpen || isNotificationCenterOpen) return
 
       if (first) {
-        // Record starting X position
-        startXRef.current = x
+        // Record starting X position relative to the phone frame
+        if (gestureRef.current) {
+          const rect = gestureRef.current.getBoundingClientRect()
+          startXRef.current = x - rect.left
+        } else {
+          startXRef.current = x
+        }
       }
 
       if (last) {
@@ -55,6 +61,7 @@ export function TopEdgeGestures() {
   // Only show hint when swiping down
   return (
     <motion.div
+      ref={gestureRef}
       className="absolute top-0 left-0 right-0 z-[60] touch-none"
       style={{
         height: DEVICE.statusBar.height + 20,

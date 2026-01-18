@@ -34,7 +34,7 @@ export function HomeIndicator() {
       className="absolute left-0 right-0 z-[70] cursor-pointer"
       style={{
         bottom: 0,
-        height: 40,
+        height: 100,
         touchAction: 'none',
       }}
       initial={{ opacity: 0, y: 10 }}

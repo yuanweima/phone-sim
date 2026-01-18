@@ -56,7 +56,7 @@ export function NotificationCenter() {
         <div
           className="flex flex-col items-center text-white"
           style={{
-            paddingTop: DEVICE.dynamicIsland.topOffset + DEVICE.dynamicIsland.height + 24
+            paddingTop: DEVICE.punchHole.topOffset + DEVICE.punchHole.size + 24
           }}
           onClick={(e) => e.stopPropagation()}
         >

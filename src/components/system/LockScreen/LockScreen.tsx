@@ -57,11 +57,11 @@ export function LockScreen() {
       }}
       {...bind()}
     >
-      {/* Clock and Date - positioned below Dynamic Island */}
+      {/* Clock and Date - positioned below punch-hole */}
       <div
         className="flex flex-col items-center"
         style={{
-          paddingTop: DEVICE.dynamicIsland.topOffset + DEVICE.dynamicIsland.height + 24
+          paddingTop: DEVICE.punchHole.topOffset + DEVICE.punchHole.size + 24
         }}
       >
         <LockClock />

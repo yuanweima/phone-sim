@@ -13,15 +13,10 @@ export const DEVICE = {
   // Screen border radius
   screenBorderRadius: 44,
 
-  // Dynamic Island dimensions
-  dynamicIsland: {
-    width: 126,
-    height: 37,
-    borderRadius: 18.5,
-    expandedWidth: 350,
-    expandedHeight: 84,
-    expandedBorderRadius: 22,
-    topOffset: 11,
+  // Punch-hole camera dimensions
+  punchHole: {
+    size: 14,
+    topOffset: 14,
   },
 
   // Status bar

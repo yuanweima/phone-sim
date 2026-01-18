@@ -1,4 +1,4 @@
 export { PhoneFrame } from './PhoneFrame'
 export { Screen } from './Screen'
-export { DynamicIsland } from './DynamicIsland'
+export { PunchHoleCamera } from './PunchHoleCamera'
 export { HomeIndicator } from './HomeIndicator'

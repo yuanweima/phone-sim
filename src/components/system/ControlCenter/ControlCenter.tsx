@@ -33,8 +33,8 @@ export function ControlCenter() {
     { axis: 'y' }
   )
 
-  // Calculate top padding to avoid Dynamic Island
-  const topPadding = DEVICE.dynamicIsland.topOffset + DEVICE.dynamicIsland.height + 16
+  // Calculate top padding to avoid punch-hole
+  const topPadding = DEVICE.punchHole.topOffset + DEVICE.punchHole.size + 16
 
   return (
     <motion.div

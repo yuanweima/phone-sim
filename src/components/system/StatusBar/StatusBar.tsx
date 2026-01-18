@@ -25,13 +25,13 @@ export function StatusBar() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
     >
-      {/* Left side - Time (hidden when Dynamic Island is present in collapsed state) */}
+      {/* Left side - Time */}
       <div className="flex-1 flex items-center">
         <TimeDisplay />
       </div>
 
-      {/* Center - Dynamic Island space (handled by DynamicIsland component) */}
-      <div style={{ width: DEVICE.dynamicIsland.width + 20 }} />
+      {/* Center - Punch-hole space */}
+      <div style={{ width: DEVICE.punchHole.size + 20 }} />
 
       {/* Right side - Status icons */}
       <div className="flex-1 flex items-center justify-end gap-1">
